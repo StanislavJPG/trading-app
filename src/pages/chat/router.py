@@ -2,8 +2,8 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Request, Depends
 from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from pages.base.router import templates
-from pages.chat.models import Message
+from src.pages.base.router import templates
+from src.pages.chat.models import Message
 from src.auth.base_config import current_user
 from src.database import async_session_maker, get_async_session
 

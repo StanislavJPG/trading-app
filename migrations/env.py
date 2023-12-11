@@ -7,7 +7,7 @@ from alembic import context
 
 from src.auth.models import DATABASE_URL, Base as Base_auth
 from src.operations.models import Base as Base_operations
-from pages.chat.models import Base as Base_chat
+from src.pages.chat.models import Base as Base_chat
 
 # import os, sys
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Depends
 
-from pages.base.router import templates
+from src.pages.base.router import templates
 from src.auth.base_config import current_user
 
 router = APIRouter(

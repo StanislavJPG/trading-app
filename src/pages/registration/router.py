@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
 
-from pages.base.router import templates
+from src.pages.base.router import templates
 
 router = APIRouter(
     tags=['Registration page']
