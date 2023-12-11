@@ -1,5 +1,5 @@
 /.idea/
+.env-non-dev
 /__pycache__/
 /venv/
 .env
-.env-non-dev
