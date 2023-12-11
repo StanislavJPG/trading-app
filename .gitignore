@@ -2,5 +2,4 @@
 .env-non-dev
 /__pycache__/
 /venv/
-.env
 *.env
