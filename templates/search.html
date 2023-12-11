@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+
+    const searchForOperations = () => {
+        const searchInputValue = document.getElementById("operation_search").value;
+        window.location.href = `/operations/search/${searchInputValue}`;
+    }
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div class="flex justify-center flex-col items-center">
+    <div class="flex my-3 gap-3">
+        <input id="operation_search" type="text" placeholder="Введіть тип операції" class="rounded text-base p-3 ring-blue ring-2 ring-current">
+        <button onclick="searchForOperations()" class="border-2 rounded-md bg-yellow-300 p-3">Пошук по операціям</button>
+    </div>
+    <span class="text-base">Приклад операції: Виплата купонів, Придбання акцій</span>
+    {% for operation in operations %}
+            <div class="flex rounded-3 bg-blue-100 border-2 p-3 mt-5">
+                <img width="150" src="{{ url_for('static', path='stonks.jpg') }}" alt="Stonks" class="mr-5">
+                <div class="flex flex-col">
+                    <span class="text-base font-bold">{{ operation.type }}</span>
+                    <span class="text-base">Дата: {{ operation.date }}</span>
+                    <span class="text-base">Кількісь: {{ operation.quantity }}</span>
+                    <span class="text-base">Ідентифікатор: {{ operation.figi }}</span>
+                </div>
+            </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

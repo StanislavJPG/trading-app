@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Авторизація</title>
+
+<script>
+    function myFunction(email, password) {
+        console.log(email);
+        console.log(password);
+      const loginUrl = "{{ url_for('auth:jwt.login') }}";
+      const loginOptions = {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `grant_type=&username=${email}&password=${password}&scope=&client_id=&client_secret=`,
+      };
+
+      fetch(loginUrl, loginOptions)
+        .then(response => {
+          if (response.status === 422){
+              document.getElementById("error-message").innerText = "422"
+          }
+          else if (response.status === 400){
+              document.getElementById("error-message").innerText = "Користувач не зареєстрований"
+          }
+          else
+         // Redirect to another page after successful login and fetching user data
+              window.location.href = '{{url_for("get_search_page")}}';
+        });
+    }
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+<form id="form">
+    <div class="flex justify-center flex-col items-center">
+        <div class="text-4xl flex my-3 gap-3 mt-5">
+            <h1>
+                Авторизація
+            </h1>
+
+        </div>
+            <div class="flex rounded-3 bg-blue-100 border-2 p-3 mt-10">
+                <div class="flex flex-col">
+                    <input type="email" id="username" name="username" placeholder="Введіть ваш Email" class="rounded text-base p-3 ring-blue ring-2 ring-current">
+                    <input type="password" id="password" name="password" placeholder="Введіть пароль" class="rounded text-base p-3 ring-blue ring-2 ring-current mt-5">
+
+                    <button type="button" onclick="myFunction(document.getElementById('username').value, document.getElementById('password').value)" class="border-2 rounded-md bg-yellow-300 p-3 mt-5">Авторизуватись</button>
+                <div style="color: red;" id="error-message"></div>
+
+                </div>
+            </div>
+        <a>
+        Ще не маєте акаунта?
+    </a>
+    <a style="color: blue;" href="http://localhost:8000/registration">
+        Зареєструватись
+    </a>
+    </div>
+</form>
+
+{% endblock %}

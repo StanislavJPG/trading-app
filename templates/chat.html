@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex justify-center flex-col items-center">
+<h1>WebSocket Chat</h1>
+<h2>Your ID: <span id="ws-id"></span></h2>
+<form action="" onsubmit="sendMessage(event)">
+    <input maxlength="40" class="rounded text-base p-3 ring-blue ring-2 ring-current" type="text" id="messageText" autocomplete="off"/>
+    <button class="border-2 rounded-md bg-yellow-300 p-3 mt-5">Send</button>
+</form>
+<ul id='messages'>
+</ul>
+<script>
+
+    async function getLastMessages(){
+        const url = 'http://localhost:8000/chat/last_messages'
+        const response = await fetch(url, {
+            method: 'GET'
+        })
+        return response.json()
+    }
+
+    getLastMessages()
+        .then(messages => {
+            appendMessages('Last 5 messages: ')
+            messages.forEach(msg => {
+                appendMessages(msg.message)
+            })
+            appendMessages('Messages: ')
+        })
+
+    function appendMessages(msg){
+        var messages = document.getElementById('messages')
+        var message = document.createElement('li')
+        var content = document.createTextNode(msg)
+        message.appendChild(content)
+        messages.appendChild(message)
+
+    }
+
+    var client_id = Date.now()
+    document.querySelector("#ws-id").textContent = client_id;
+    var ws = new WebSocket(`ws://localhost:8000/chat/ws/${client_id}`);
+    ws.onmessage = function(event) {
+        appendMessages(event.data)
+    };
+    function sendMessage(event) {
+        var input = document.getElementById("messageText")
+        ws.send(input.value)
+        input.value = ''
+        event.preventDefault()
+    }
+</script>
+</div>
+{% endblock %}

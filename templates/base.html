@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="/static/icon.ico">
+    {% block head %}{% endblock %}
+    <title>Trading App</title>
+</head>
+<body>
+    <nav class="flex justify-between text-2xl my-3">
+        <ul class="flex ml-10">
+            <a href="http://localhost:8000/base">
+                Trading App
+            </a>
+        </ul>
+        <ul class="flex gap-3 mr-10">
+            <div id="login-status">
+                <a onclick="searchOperations()" href="http://localhost:8000/operations/send_report">
+                    Відправити репорт
+                </a>
+                |
+                <a onclick="searchOperations()" href="http://localhost:8000/operations/search">
+                    Пошук по операціям
+                </a>
+                |
+                <a onclick="searchOperations()" href="http://localhost:8000/chat">
+                    Чат трейдерів
+                </a>
+                |
+                {% if not current_user %}
+                <a onclick="searchForRegistration()" href="http://localhost:8000/registration">
+                    Реєстрація
+                </a>
+                {% else %}
+                <a href="http://localhost:8000/index">
+                    Вихід
+                </a>
+            {% endif %}
+            </div>
+        </ul>
+    </nav>
+    <hr>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+
+<script>
+
+    function searchOperations() {
+        fetch('http://localhost:8000/operations/search')
+            .then(response => {
+                if (response.status === 401) {
+                    window.location.href = 'http://localhost:8000/registration';
+                    alert('Щоб використовувати функції сайту необіхдно зареєструватись ');
+                }
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+
+    function searchForRegistration() {
+        fetch('http://localhost:8000/operations/search')
+            .then(response => {
+                if (response.status === 401) {
+                    window.location.href = 'http://localhost:8000/registration';
+                } else if (response.status === 200) {
+                    window.location.href = 'http://localhost:8000/base';
+                    alert('Ви вже авторизовані ');
+                }
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+
+</script>
+
+</html>
