@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, Depends
 
-from app.pages.base.router import templates
-from app.src.auth.base_config import current_user
+from pages.base.router import templates
+from src.auth.base_config import current_user
 
 router = APIRouter(
     tags=['Authorization page']

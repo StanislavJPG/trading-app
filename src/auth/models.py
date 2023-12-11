@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import Integer, String, TIMESTAMP, ForeignKey, Column, JSON, MetaData, Boolean
 from sqlalchemy.orm import DeclarativeMeta, declarative_base
 
-from app.src.config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS
+from src.config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS
 
 
 DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"

@@ -2,10 +2,10 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Request, Depends
 from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.pages.base.router import templates
-from app.pages.chat.models import Message
-from app.src.auth.base_config import current_user
-from app.src.database import async_session_maker, get_async_session
+from pages.base.router import templates
+from pages.chat.models import Message
+from src.auth.base_config import current_user
+from src.database import async_session_maker, get_async_session
 
 router = APIRouter(
     prefix='/chat',

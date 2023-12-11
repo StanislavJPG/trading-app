@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.background import BackgroundTasks
-from app.src.auth.base_config import current_user
-from app.src.tasks.tasks import send_email_report_dashboard
+from src.auth.base_config import current_user
+from src.tasks.tasks import send_email_report_dashboard
 
 router = APIRouter(
     prefix='/report',

@@ -3,23 +3,23 @@ from fastapi import FastAPI
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 
-from app.src.auth.base_config import fastapi_users, auth_backend
-from app.src.auth.schemas import UserRead, UserCreate
+from src.auth.base_config import fastapi_users, auth_backend
+from src.auth.schemas import UserRead, UserCreate
 
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from app.src.tasks.router import router as router_tasks
-from app.pages.operations.router import router as router_operation
-from app.pages.base.router import router as router_pages
-from app.pages.registration.router import router as router_reg
-from app.pages.auth.router import router as router_auth
-from app.pages.chat.router import router as router_chat
+from src.tasks.router import router as router_tasks
+from pages.operations.router import router as router_operation
+from pages.base.router import router as router_pages
+from pages.registration.router import router as router_reg
+from pages.auth.router import router as router_auth
+from pages.chat.router import router as router_chat
 
 app = FastAPI(
     title='Trading App',
 )
 
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 origins = [
     "http://127.0.0.1:8000"

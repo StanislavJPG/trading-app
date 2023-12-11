@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Request, Depends
 
-from app.pages.base.router import templates
-from app.src.auth.base_config import current_user
-from app.src.operations.router import get_specific_operations
+from pages.base.router import templates
+from src.auth.base_config import current_user
+from src.operations.router import get_specific_operations
 
 
 router = APIRouter(

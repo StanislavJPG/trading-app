@@ -1,6 +1,6 @@
 from sqlalchemy import insert
 from conftest import client, async_session_maker
-from app.src.auth.models import Role
+from src.auth.models import Role
 
 
 async def test_add_role():

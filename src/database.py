@@ -6,7 +6,7 @@ from sqlalchemy import String, Boolean, Integer, TIMESTAMP, ForeignKey, MetaData
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeMeta
-from app.src.auth.models import Role, DATABASE_URL
+from src.auth.models import Role, DATABASE_URL
 
 Base: DeclarativeMeta = declarative_base()
 metadata = MetaData()
