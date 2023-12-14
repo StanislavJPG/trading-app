@@ -9,15 +9,18 @@ from src.auth.schemas import UserRead, UserCreate
 
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+
+from src.config import REDIS_HOST, REDIS_PORT
 from src.tasks.router import router as router_tasks
 
 sys.path.append('src')
 
-from pages.operations.router import router as router_operation
+from operations.router import router as router_operations
+from pages.operations.router import router as router_operation_page
 from pages.base.router import router as router_pages
-from pages.registration.router import router as router_reg
-from pages.auth.router import router as router_auth
-from pages.chat.router import router as router_chat
+from pages.registration.router import router as router_reg_page
+from pages.auth.router import router as router_auth_page
+from pages.chat.router import router as router_chat_page
 
 
 app = FastAPI(
@@ -43,16 +46,17 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup():
-    redis = aioredis.from_url("redis://localhost")
+    redis = aioredis.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}", encoding="utf-8", decode_response=True)
     FastAPICache.init(RedisBackend(redis), prefix="cache")
 
 
-app.include_router(router_operation)
-app.include_router(router_tasks),
+app.include_router(router_operation_page)
+app.include_router(router_tasks)
 app.include_router(router_pages)
-app.include_router(router_reg)
-app.include_router(router_auth)
-app.include_router(router_chat)
+app.include_router(router_reg_page)
+app.include_router(router_auth_page)
+app.include_router(router_chat_page)
+app.include_router(router_operations)
 
 
 app.include_router(

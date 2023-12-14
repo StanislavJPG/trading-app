@@ -4,9 +4,12 @@ from fastapi import Depends
 from fastapi_users.db import SQLAlchemyBaseUserTable, SQLAlchemyUserDatabase
 from sqlalchemy import String, Boolean, Integer, TIMESTAMP, ForeignKey, MetaData
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import Mapped, mapped_column, DeclarativeMeta
-from src.auth.models import Role, DATABASE_URL
+from sqlalchemy.orm import Mapped, mapped_column, DeclarativeMeta, declarative_base
+
+from src.auth.models import Role
+from src.config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS
+
+DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 Base: DeclarativeMeta = declarative_base()
 metadata = MetaData()
