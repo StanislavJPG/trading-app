@@ -1,4 +1,5 @@
 import re
+from dataclasses import asdict
 
 import sqlalchemy.exc
 from fastapi import APIRouter, Depends, HTTPException
@@ -13,6 +14,23 @@ router = APIRouter(
     prefix='/operations',
     tags=['Operations']
 )
+
+
+@router.get('/all_operations')
+async def get_all_operations(session: AsyncSession = Depends(get_async_session)):
+    try:
+        query = select(Operations)
+        result = await session.scalars(query)
+        operations = result.all()
+        body = [operation for operation in operations]
+        return {
+            'status': 'success',
+            'body': body
+        }
+    except Exception:
+        raise HTTPException(status_code=500,
+                            detail={'status': 'Error',
+                                    'body': 'Please, tell us about this error.'})
 
 
 @router.get('')
@@ -43,4 +61,3 @@ async def add_specific_operations(new_operation: OperationCreate, session: Async
         raise HTTPException(status_code=500,
                             detail={'status': 'Error',
                                     'body': f'id {matches[0]} already exists'})
-

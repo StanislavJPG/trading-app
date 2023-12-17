@@ -5,7 +5,7 @@
 <h1>WebSocket Chat</h1>
 <h2>Your ID: <span id="ws-id"></span></h2>
 <form action="" onsubmit="sendMessage(event)">
-    <input maxlength="40" class="rounded text-base p-3 ring-blue ring-2 ring-current" type="text" id="messageText" autocomplete="off"/>
+    <input maxlength="50" class="rounded text-base p-3 ring-blue ring-2 ring-current" type="text" id="messageText" autocomplete="off"/>
     <button class="border-2 rounded-md bg-yellow-300 p-3 mt-5">Send</button>
 </form>
 <ul id='messages'>
@@ -13,7 +13,7 @@
 <script>
 
     async function getLastMessages(){
-        const url = 'http://localhost:8000/chat/last_messages'
+        const url = 'http://localhost:7077/chat/last_messages'
         const response = await fetch(url, {
             method: 'GET'
         })
@@ -40,7 +40,7 @@
 
     var client_id = Date.now()
     document.querySelector("#ws-id").textContent = client_id;
-    var ws = new WebSocket(`ws://localhost:8000/chat/ws/${client_id}`);
+    var ws = new WebSocket(`ws://localhost:7077/chat/ws/${client_id}`);
     ws.onmessage = function(event) {
         appendMessages(event.data)
     };

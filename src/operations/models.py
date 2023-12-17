@@ -1,7 +1,6 @@
 from sqlalchemy import Integer, Column, String, TIMESTAMP
 from sqlalchemy.orm import DeclarativeMeta, declarative_base
 
-
 Base: DeclarativeMeta = declarative_base()
 
 
@@ -14,3 +13,5 @@ class Operations(Base):
     instrument_type = Column(String, nullable=True)
     date = Column(TIMESTAMP)
     type = Column(String)
+
+

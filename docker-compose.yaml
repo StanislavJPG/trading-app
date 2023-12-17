@@ -1,10 +1,13 @@
 version: "24.0.7"
 services:
   db:
-    image: postgres:16.1
+    image: postgres:latest
     container_name: db_app
     env_file:
       - .env_non_dev
+    ports:
+      - "9588:5432"
+    restart: always
 
 
   redis:
@@ -18,7 +21,7 @@ services:
     container_name: fastapi_app
     command: ["/fastapi_app/docker/app.sh"]
     ports:
-      - 2556:8088
+      - 7077:8088
     env_file:
       - .env_non_dev
     depends_on:
@@ -49,3 +52,10 @@ services:
       - celery
     ports:
       - 8888:5555
+
+#  socket:
+#    build:
+#      context: .
+#    container_name: socket_app
+#    ports:
+#      - 5008:5008

@@ -24,6 +24,7 @@ def get_search_page(request: Request, operations=Depends(get_specific_operations
                                       {'request': request, 'operations': operations['body'],
                                        'current_user': current_user})
 
+
 @router.get('/send_report')
 def get_report_email_page(request: Request, current_user=Depends(current_user)):
     return templates.TemplateResponse('reports_email.html',

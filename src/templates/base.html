@@ -13,30 +13,30 @@
 <body>
     <nav class="flex justify-between text-2xl my-3">
         <ul class="flex ml-10">
-            <a href="http://localhost:8000/base">
+            <a href="http://localhost:7077/base">
                 Trading App
             </a>
         </ul>
         <ul class="flex gap-3 mr-10">
             <div id="login-status">
-                <a onclick="searchOperations()" href="http://localhost:8000/operations/send_report">
+                <a onclick="searchOperations()" href="http://localhost:7077/operations/send_report">
                     Відправити репорт
                 </a>
                 |
-                <a onclick="searchOperations()" href="http://localhost:8000/operations/search">
+                <a onclick="searchOperations()" href="http://localhost:7077/operations/search">
                     Пошук по операціям
                 </a>
                 |
-                <a onclick="searchOperations()" href="http://localhost:8000/chat">
+                <a onclick="searchOperations()" href="http://localhost:7077/chat">
                     Чат трейдерів
                 </a>
                 |
                 {% if not current_user %}
-                <a onclick="searchForRegistration()" href="http://localhost:8000/registration">
+                <a onclick="searchForRegistration()" href="http://localhost:7077/registration">
                     Реєстрація
                 </a>
                 {% else %}
-                <a href="http://localhost:8000/index">
+                <a href="http://localhost:7077/index">
                     Вихід
                 </a>
             {% endif %}
@@ -52,33 +52,33 @@
 
 <script>
 
-    function searchOperations() {
-        fetch('http://localhost:8000/operations/search')
-            .then(response => {
-                if (response.status === 401) {
-                    window.location.href = 'http://localhost:8000/registration';
-                    alert('Щоб використовувати функції сайту необіхдно зареєструватись ');
-                }
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
-    }
+function searchOperations() {
+    fetch('http://localhost:8000/operations/search')
+        .then(response => {
+            if (response.status === 401) {
+                window.location.href = 'http://localhost:7077/registration';
+                alert('Щоб використовувати функції сайту необіхдно зареєструватись ');
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
 
-    function searchForRegistration() {
-        fetch('http://localhost:8000/operations/search')
-            .then(response => {
-                if (response.status === 401) {
-                    window.location.href = 'http://localhost:8000/registration';
-                } else if (response.status === 200) {
-                    window.location.href = 'http://localhost:8000/base';
-                    alert('Ви вже авторизовані ');
-                }
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
-    }
+function searchForRegistration() {
+    fetch('http://localhost:8000/operations/search')
+        .then(response => {
+            if (response.status === 401) {
+                window.location.href = 'http://localhost:7077/registration';
+            } else if (response.status === 200) {
+                window.location.href = 'http://localhost:7077/base';
+                alert('Ви вже авторизовані ');
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
 
 </script>
 

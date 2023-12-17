@@ -5,8 +5,8 @@ from pydantic import Field, EmailStr
 
 class UserRead(schemas.BaseUser[int]):
     id: int
-    email: str
-    username: str
+    email: EmailStr
+    username: str = 'John Doe'
     role_id: int
     is_active: bool = True
     is_superuser: bool = False
@@ -15,7 +15,7 @@ class UserRead(schemas.BaseUser[int]):
 
 class UserCreate(schemas.BaseUserCreate):
     username: str = Field(min_length=1)
-    email: str = EmailStr
+    email: EmailStr
     password: str = Field(min_length=5)
     role_id: int
     is_active: Optional[bool] = True

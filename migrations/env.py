@@ -7,10 +7,9 @@ from sqlalchemy import pool
 from alembic import context
 from sqlalchemy.ext.asyncio import AsyncEngine
 
-# from src.auth.models import DATABASE_URL, Base as Base_auth
 from src.database import DATABASE_URL
-from src.auth.models import Base as Base_auth
 
+from src.auth.models import Base as Base_auth
 from src.operations.models import Base as Base_operations
 from src.pages.chat.models import Base as Base_chat
 
