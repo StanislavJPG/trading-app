@@ -15,10 +15,10 @@ router = APIRouter(
 async def get_dashboard_report_email(request: Request, background_tasks: BackgroundTasks,
                                      user=Depends(current_user), operations=Depends(get_all_operations),
                                      quantity: int = Query(..., description="Quantity")):
-    # send_email_report_dashboard.delay(user.username, user.email,
-    # operations['body'][:quantity])    # this is for celery+redis+flower (or without flower)
-    background_tasks.add_task(
-        send_email_report_dashboard, user.username, user.email, operations
-    )   # this is default fastapi background task function
+    send_email_report_dashboard.delay(user.username, user.email,
+    operations['body'][:quantity])    # this is for celery+redis+flower (or without flower)
+    # background_tasks.add_task(
+    #     send_email_report_dashboard, user.username, user.email, operations['body'][:quantity]
+    # )   # this is default fastapi background task function
     return templates.TemplateResponse('base.html',
                                       {'request': request})

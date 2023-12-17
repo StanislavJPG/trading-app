@@ -34,7 +34,7 @@
             <div class="flex flex-col">
                 <a type="email" id="email" name="email" class="text-ml">{{ current_user.username }}, Вам відправити на пошту звіт про фінансові операції?</a>
                 <a class="flex justify-center text-l">Введіть кількість операцій, які вам відправити на пошту:</a>
-                <input type="text" name="quantity" placeholder="Кілкість" class="rounded text-base p-3 ring-blue ring-2 ring-current mt-5"/>
+                <input max="5" min="1" type="number" name="quantity" placeholder="Кілкість" class="rounded text-base p-3 ring-blue ring-2 ring-current mt-5"/>
                 <button onclick="searchOperations()" class="border-2 rounded-md bg-yellow-300 p-3 mt-5">Відправити звіт</button>
             </div>
         </div>

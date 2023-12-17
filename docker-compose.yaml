@@ -4,7 +4,7 @@ services:
     image: postgres:latest
     container_name: db_app
     env_file:
-      - .env_non_dev
+      - .env_prod
     ports:
       - "9588:5432"
     restart: always
@@ -23,7 +23,7 @@ services:
     ports:
       - 7077:8088
     env_file:
-      - .env_non_dev
+      - .env_prod
     depends_on:
       - db
       - redis
@@ -33,7 +33,7 @@ services:
     build:
       context: .
     env_file:
-      - .env_non_dev
+      - .env_prod
     container_name: celery_app
     command: ["/fastapi_app/docker/celery.sh", "celery"]
     depends_on:
@@ -44,7 +44,7 @@ services:
     build:
       context: .
     env_file:
-      - .env_non_dev
+      - .env_prod
     container_name: flower_app
     command: ["/fastapi_app/docker/celery.sh", "flower"]
     depends_on:
@@ -52,10 +52,3 @@ services:
       - celery
     ports:
       - 8888:5555
-
-#  socket:
-#    build:
-#      context: .
-#    container_name: socket_app
-#    ports:
-#      - 5008:5008

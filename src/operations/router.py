@@ -1,5 +1,5 @@
+import json
 import re
-from dataclasses import asdict
 
 import sqlalchemy.exc
 from fastapi import APIRouter, Depends, HTTPException
@@ -22,7 +22,7 @@ async def get_all_operations(session: AsyncSession = Depends(get_async_session))
         query = select(Operations)
         result = await session.scalars(query)
         operations = result.all()
-        body = [operation for operation in operations]
+        body = [operation.as_dict() for operation in operations]
         return {
             'status': 'success',
             'body': body

@@ -8,10 +8,11 @@ class Operations(Base):
     __tablename__ = 'operations'
 
     id = Column(Integer, primary_key=True)
-    quantity = Column(String)
+    quantity = Column(Integer)
     figi = Column(String)
     instrument_type = Column(String, nullable=True)
     date = Column(TIMESTAMP)
     type = Column(String)
 
-
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
