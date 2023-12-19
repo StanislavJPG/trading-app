@@ -3,7 +3,7 @@
 /__pycache__/
 /venv/
 .env
-*.env
+.env-render
 NON-DEV/main.py
 scripts.py
 /templates_NOT_CODE/
