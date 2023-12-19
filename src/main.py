@@ -1,16 +1,21 @@
 import sys
 from redis import asyncio as aioredis
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from sqlalchemy import insert
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.auth.base_config import fastapi_users, auth_backend
+from src.auth.models import Role
 from src.auth.schemas import UserRead, UserCreate
 
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.config import REDIS_HOST, REDIS_PORT
+from src.database import get_async_session, async_session_maker
 from src.tasks.router import router as router_tasks
 
 sys.path.append('src')
@@ -30,7 +35,7 @@ app = FastAPI(
 app.mount("/static", StaticFiles(directory="src/static"), name="static")
 
 origins = [
-    "http://127.0.0.1:8000"
+    "http://127.0.0.1:7077"
 ]
 
 
@@ -48,6 +53,24 @@ app.add_middleware(
 async def startup():
     redis = aioredis.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}", encoding="utf-8", decode_response=True)
     FastAPICache.init(RedisBackend(redis), prefix="cache")
+
+
+async def create_role_tables(session: AsyncSession = Depends(get_async_session)):
+    try:
+        user_roles = ({'id': 1, 'name': 'user', 'permissions': None},
+                      {'id': 2, 'name': 'admin', 'permissions': None})
+        for user_role in user_roles:
+            stmt = insert(Role).values(**user_role)
+            await session.execute(stmt)
+        await session.commit()
+    except IntegrityError:
+        return 'Roles already exists'
+
+
+@app.on_event("startup")
+async def startup_roles():
+    async with async_session_maker() as session:
+        await create_role_tables(session)
 
 
 app.include_router(router_operation_page)

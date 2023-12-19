@@ -21,4 +21,3 @@ async def test_get_specific_operations(ac: AsyncClient):
 
     assert response.status_code == 200
     assert response.json()['status'] == 'success'
-

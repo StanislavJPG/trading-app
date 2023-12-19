@@ -20,13 +20,12 @@
       fetch(loginUrl, loginOptions)
         .then(response => {
           if (response.status === 422){
-              document.getElementById("error-message").innerText = "422"
+              document.getElementById("error-message").innerText = "Unprocessable Entity"
           }
           else if (response.status === 400){
               document.getElementById("error-message").innerText = "Користувач не зареєстрований"
           }
           else
-         // Redirect to another page after successful login and fetching user data
               window.location.href = '{{url_for("get_search_page")}}';
         });
     }
@@ -58,7 +57,7 @@
         <a>
         Ще не маєте акаунта?
     </a>
-    <a style="color: blue;" href="http://localhost:8000/registration">
+    <a style="color: blue;" href="http://localhost:7077/registration">
         Зареєструватись
     </a>
     </div>

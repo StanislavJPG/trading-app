@@ -35,6 +35,7 @@
                 } else if (response.status === 400) {
                     document.getElementById("error-message").innerText = "Такий користувач вже зареєстрований";
                 } else {
+                    alert('Успішна реєстрація. Авторизуйтесь');
                     window.location.href = '{{url_for("get_auth_page")}}';
                 }
             })

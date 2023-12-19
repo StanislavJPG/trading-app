@@ -30,4 +30,3 @@ fastapi_users = FastAPIUsers[User, int](
 
 current_user = fastapi_users.authenticator.current_user(active=True)
 super_user = fastapi_users.authenticator.current_user(superuser=True)
-

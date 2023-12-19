@@ -11,3 +11,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 RUN chmod a+x docker/*.sh
+
+RUN alembic upgrade head
+
+RUN gunicorn src.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8088

@@ -11,7 +11,7 @@ router = APIRouter(
 )
 
 
-@router.get('/search', response_model=None)
+@router.get('/search')
 def get_search_page(request: Request, current_user=Depends(current_user)):
     return templates.TemplateResponse('search.html',
                                       {'request': request, 'current_user': current_user})
@@ -28,4 +28,10 @@ def get_search_page(request: Request, operations=Depends(get_specific_operations
 @router.get('/send_report')
 def get_report_email_page(request: Request, current_user=Depends(current_user)):
     return templates.TemplateResponse('reports_email.html',
-                                      {'request': request, 'current_user': current_user, 'user_name': current_user.username})
+                                      {'request': request, 'current_user': current_user})
+
+
+@router.get('/buy')
+def get_add_operations_page(request: Request, current_user=Depends(current_user)):
+    return templates.TemplateResponse('operations_create.html',
+                                      {'request': request, 'current_user': current_user})

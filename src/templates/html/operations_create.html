@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Створити</title>
+
+<script>
+    function operationCreate(id, quantity, figi, instrument_type, date, type) {
+        const createUrl = "{{ url_for('add_specific_operations') }}";
+        const data = {
+                "id": id,
+                "quantity": quantity,
+                "figi": figi,
+                "instrument_type": instrument_type,
+                "date": date,
+                "type": type
+              }
+
+        const createOptions = {
+            method: 'POST',
+            headers: {
+              'accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          };
+
+              fetch(createUrl, createOptions)
+            .then(response => {
+                if (response.status === 422) {
+                    response.json().then(data => {
+                        console.log(data);
+                        document.getElementById("error-message").innerText = "Unprocessable Entity";
+                    });
+                } else if (response.status === 500) {
+                    document.getElementById("error-message").innerText = "Змініть ідентифікатор";
+                } else {
+                    alert('Операцію успішно створено.');
+                }
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+
+</script>
+
+{% endblock %}
+{% block content %}
+
+<form id="form">
+<div class="flex justify-center flex-col items-center">
+    <div class="text-4xl flex my-3 gap-3 mt-5">
+        <h1>
+            Створити операцію
+        </h1>
+
+    </div>
+        <div class="flex rounded-3 bg-blue-100 border-2 p-3 mt-10">
+            <div class="flex flex-col">
+                <input type="number" min="1" id="id" name="id" placeholder="Введіть ID цінного паперу" class="rounded text-base p-3 ring-blue ring-2 ring-current"/>
+                <input type="number" min="1" id="quantity" name="quantity" placeholder="Кількість цінних паперів" class="rounded text-base p-3 ring-blue ring-2 ring-current mt-5"/>
+
+                <b style="height: 10px;" class="text-base">Виберіть FIGI:</b>
+                <select id="figi" class="rounded text-base p-3 ring-blue ring-2 ring-current mt-5" name="select">
+                  <option name="figi" value="BBGID">BBGID</option>
+                </select>
+
+                <b style="height: 10px;" class="text-base">Виберіть тип інструменту:</b>
+                <select id="instrument_type" class="rounded text-base p-3 ring-blue ring-2 ring-current mt-5" name="select">
+                  <option name="instrument_type" value="Реальний" selected>Реальний</option>
+                  <option name="instrument_type" value="Інтелектуальний" selected>Інтелектуальний</option>
+                  <option name="instrument_type" value="Фінансовий" selected>Фінансовий</option>
+                </select>
+
+                <b style="height: 10px;" class="text-base;">Виберіть тип:</b>
+                <select id="type" class="rounded text-base p-3 ring-blue ring-2 ring-current mt-5" name="select">
+                  <option name="type" value="Придбання акцій">Придбання акцій</option>
+                  <option name="type" value="Виплата купонів">Виплата купонів</option>
+                  <option name="type" value="Продаж акцій">Продаж акцій</option>
+                </select>
+
+                <input type="text" id="date" name="date" class="rounded text-base p-3 ring-blue ring-2 ring-current mt-5" readonly/>
+                <script>
+                    var dateInput = document.getElementById('date');
+                    var currentDate = new Date();
+                    var formattedDate = currentDate.toISOString().slice(0, 16);
+                    dateInput.value = formattedDate;
+                </script>
+
+                <button onclick="operationCreate(document.getElementById('id').value, document.getElementById('quantity').value,
+                 document.getElementById('figi').value, document.getElementById('instrument_type').value, document.getElementById('date').value, document.getElementById('type').value)"
+                class="border-2 rounded-md bg-yellow-300 p-3 mt-5" type="button">Створити</button>
+
+                <div style="color: red;" id="error-message"></div>
+
+            </div>
+        </div>
+</div>
+</form>
+
+{% endblock %}
